@@ -1,0 +1,32 @@
+from config import Config
+from cgi import print_environ
+from flask import Flask
+from app.routes.api import mainRoutes
+# import app.controllers
+import app.models.Database as db
+from pymongo import MongoClient
+
+# app = Flask(__name__)
+
+# @app.before_request
+# def db_connection():
+#     # connection_params = Config.connection_params
+#     # mongoconnection = MongoClient(
+#     #     'mongodb://{user}:{password}@{host}:'
+#     #     '{port}/{namespace}?retryWrites=true'.format(**connection_params)
+#     # )
+#     # print(connection_params)
+#     db.mongoconnection
+
+# connection_params = {
+#     'user': os.environ["DB_USER"],
+#     'password': os.environ["DB_PASSWORD"],
+#     'host': os.environ["DB_HOST"],
+#     'port': os.environ["DB_PORT"],
+#     'namespace': '',
+# }
+
+print(print_environ)
+
+# app.config.from_object(Config)
+# print(app.config["DATABASE"])
