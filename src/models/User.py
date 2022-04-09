@@ -4,6 +4,7 @@ from pickle import FALSE
 from src.models.Database import Database
 from posix import environ
 from src.models.Database import Database
+# import pyjwt
 
 class User():
     def __init__(self):
@@ -13,5 +14,5 @@ class User():
         pass
 
     def write(self, user):
-        self.database.users.insert_one(user)
+        # self.database.users.insert_one(user)
         return False
