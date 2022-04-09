@@ -1,20 +1,17 @@
 # from flask import current_app as app
 from dataclasses import dataclass
 from pickle import FALSE
-from app.models.Database import Database
+from src.models.Database import Database
 from posix import environ
-
-# db = Database()
-# print(db.client)
-
+from src.models.Database import Database
 
 class User():
     def __init__(self):
-        self.db = Database()
-        print(self.db.db)
+        self.database = Database().db
+        # print(self.db.db)
         # print(Database.db)
         pass
 
     def write(self, user):
-        res = self.db.insert()
+        self.database.users.insert_one(user)
         return False

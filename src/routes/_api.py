@@ -1,6 +1,5 @@
-from crypt import methods
 from flask import Blueprint, jsonify, request, url_for
-from app.controllers import UserController
+from src.controllers import UserController
 
 mainRoutes = Blueprint('routes', __name__, url_prefix='/')
 

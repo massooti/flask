@@ -1,13 +1,16 @@
 # Statement for enabling the development environment
-import os
 from pickle import TRUE
 from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
+
 
 
 class Config():
 
     DEBUG = False
-
+    load_dotenv()
+   
     connection_params = {
         'name': os.environ.get('DB_NAME'),
         'user': os.environ.get("DB_USER"),
