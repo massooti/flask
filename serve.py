@@ -1,9 +1,14 @@
 from flask import Flask
 from config import Config
-from src.routes._api import mainRoutes
-from src.models.Database import Database
+from src.routes.api import mainRoutes
+from src.database.Database import Database
+from src.database.seeder import UserSeeder
+from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "abcb45eebb824e9d8723adb8f6210acc"
+jwt = JWTManager(app)
+
 app.register_blueprint(mainRoutes)
 
 if __name__ == '__main__':

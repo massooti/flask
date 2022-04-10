@@ -5,12 +5,11 @@ from dotenv import load_dotenv
 import os
 
 
-
 class Config():
 
     DEBUG = False
     load_dotenv()
-   
+
     connection_params = {
         'name': os.environ.get('DB_NAME'),
         'user': os.environ.get("DB_USER"),
@@ -36,3 +35,4 @@ CSRF_SESSION_KEY = "secret"
 
 # Secret key for signing cookies
 SECRET_KEY = "abcb45eebb824e9d8723adb8f6210acc"
+JWT_SECRET_KEY = "abcb45eebb824e9d8723adb8f6210acc"
