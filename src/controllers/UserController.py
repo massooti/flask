@@ -4,7 +4,7 @@ from flask import jsonify, request, url_for
 from werkzeug.security import generate_password_hash, check_password_hash
 from src.models.User import User
 from src.database.Database import Database
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt, get_jwt_identity
 import datetime
 
 user = User()
@@ -75,3 +75,10 @@ def profile():
         return jsonify({'profile': user_from_db}), 200
     else:
         return jsonify({'msg': 'Profile not found'}), 404
+
+
+@jwt_required()
+def signOut():
+    jti = get_jwt()["jti"]
+    jwt_redis_blocklist.set(jti, "", ex=ACCESS_EXPIRES)
+    return jsonify(msg="Access token revoked")
