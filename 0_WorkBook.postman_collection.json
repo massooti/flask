@@ -1,0 +1,276 @@
+{
+	"info": {
+		"_postman_id": "b528f5b7-f67e-4514-9768-c8467d6313aa",
+		"name": "0_WorkBook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "hello world",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8089/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "write",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"ali\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8089/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8089",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign-in",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"ttop-super-admin\",\n    \"password\":\"a123456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/sign-in",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign-up",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"// console.log(jsonData.token);",
+							"pm.collectionVariables.set(\"token\", jsonData.token);",
+							"const payload = jsonData.token.split('.')[1];  ",
+							"const parsed = JSON.parse(atob(payload));",
+							"// pm.collectionVariables.set('authId', parsed.id); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"1233456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/signUp",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"signUp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign-out",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"// console.log(jsonData.token);",
+							"pm.collectionVariables.set(\"token\", jsonData.token);",
+							"const payload = jsonData.token.split('.')[1];  ",
+							"const parsed = JSON.parse(atob(payload));",
+							"// pm.collectionVariables.set('authId', parsed.id); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"1233456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/sign-out",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"sign-out"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profile",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"1233456\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/me",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "grade-insert",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"users\": [\n      {\n        \"class\": \"a\",\n        \"name\": \"magna\",\n        \"id\": 905,\n        \"status\": true,\n         \"courses\":{\n        \"math\":18,\n        \"adab\":10}\n      },\n      {\n        \"class\": \"a\",\n        \"name\": \"non\",\n        \"id\": 369,\n        \"status\": true,\n         \"courses\":{\n        \"math\":19,\n        \"adab\":17\n       } },\n      {\n        \"class\": \"b\",\n        \"name\": \"aliquip\",\n        \"id\": 423,\n        \"status\": true,\n        \"courses\":{\n        \"math\": {\"s\":20, \"w\":4},\n        \"adab\": {\"s\":18, \"w\":3}}\n      },\n      {\n        \"class\": \"b\",\n        \"name\": \"ea\",\n        \"id\": 633,\n        \"status\": true,\n        \"courses\":{\n        \"math\": {\"s\":20, \"w\":4},\n        \"adab\": {\"s\":20, \"w\":3}\n        }\n      },\n      {\n        \"class\": \"a2\",\n        \"name\": \"qui\",\n        \"id\": 710,\n        \"status\": true,\n        \"courses\":{\n        \"math\": {\"s\":15, \"w\":4},\n        \"adab\": {\"s\":15, \"w\":3}\n        }\n      },\n      {\n        \"class\": \"a2\",\n        \"name\": \"et\",\n        \"id\": 228,\n        \"status\": true,\n        \"courses\":{\n        \"math\": {\"s\":17, \"w\":4},\n        \"adab\": {\"s\":14, \"w\":3}\n        }\n\n      },\n      {\n        \"class\": \"b2\",\n        \"name\": \"magna\",\n        \"id\": 366,\n        \"status\": true,\n        \"courses\":{\n        \"math\": {\"s\":18, \"w\":4},\n        \"adab\": {\"s\":20, \"w\":3}\n        }\n      },\n      {\n        \"class\": \"b2\",\n        \"name\": \"consectetur\",\n        \"id\": 352,\n        \"status\": false,\n        \"courses\":{\n        \"math\": {\"s\":0, \"w\":4},\n        \"adab\": {\"s\":0, \"w\":3}\n        }\n      }\n    ],\n    \"weights\":{\n        \"math\" : 4,\n        \"adab\" : 3\n    }\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/grade/insert",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"grade",
+						"insert"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "domain",
+			"value": "http://localhost:8089/"
+		},
+		{
+			"key": "token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY0OTU3ODU4MiwianRpIjoiM2I0Yzk4YzMtMmI5ZC00ZDNiLWJhNTQtNTE4YzQzZjI1NWY1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFkbWluIiwibmJmIjoxNjQ5NTc4NTgyLCJleHAiOjE2NDk1Nzk0ODJ9.MV7d48z_-3UGrRK8LSbo0TWhBb8e5Gz5LJN6eJrRa1E"
+		}
+	]
+}

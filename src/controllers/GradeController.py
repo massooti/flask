@@ -14,41 +14,34 @@ from collections import defaultdict
 def calRank(scoresList):
 
     sortedList = sorted(scoresList, reverse=True)
-    sortedRank = [sortedList.index(x, 1) for x in sortedList]
+    # sortedRank = [sortedList.index(x, 1) for x in sortedList]
     # rankBasesd = list(map(xPlus, sortedIndex))
     scores = []
-    ranks = []
+    globalRanks = []
     counter = 1
-    dicts = {}
+    dicts = defaultdict(list)
     for score in sortedList:
         if len(scores) == 0:
             scores.append(score)
-            ranks.append(counter)
+            globalRanks.append(counter)
         elif score == scores[0]:
             scores.append(score)
-            ranks.append(ranks[-1])
+            globalRanks.append(globalRanks[-1])
         elif score != scores[0]:
             scores.clear()
             scores.append(score)
-            ranks.append(counter)
+            globalRanks.append(counter)
 
-        dicts[score] = counter
+        dicts[score] .append(counter)
         counter += 1
 
+# TODO: should improve
     fetchedRank = []
     for i in scoresList:
-        print(i, dicts[i])
-        if i == dicts[i]:
-            fetchedRank.append(dicts[i])
+        if i in dicts:
+            fetchedRank.append(dicts[i][0])
 
-    # print( "\n", fetchedRank)
-
-    arr = np.array([scoresList, fetchedRank], dtype="object")
-    print(arr)
-    exit()
-    return arr
-    # print(sortedList, "\n", "\n", ranks, "\n", dicts)
-    # return dicts
+    return np.array([scoresList, fetchedRank], dtype="object")
 
 
 @jwt_required()
@@ -63,8 +56,9 @@ def insert():
     df = pd.DataFrame(myDict)
     df["users"] = json[0]["users"]
     df["math_scores"] = json[0]["math_scores"]
-    fetchRankScores = calRank(json[0]["math_scores"])
-
+    df["math_scores"] = calRank(json[0]["math_scores"])[0]
+    df["ranks"] = calRank(json[0]["math_scores"])[1]
+    print(df)
     return jsonify({"hell": "d"})
 
 
