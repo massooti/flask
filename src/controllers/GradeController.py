@@ -1,4 +1,5 @@
 
+from pickle import TRUE
 from flask import jsonify, request, url_for
 from markupsafe import re
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -6,52 +7,65 @@ from src.models.User import User
 from src.database.Database import Database
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt, get_jwt_identity
 import numpy as np
-import pandas
+import pandas as pd
+from collections import defaultdict
+
+
+def calRank(scoresList):
+
+    sortedList = sorted(scoresList, reverse=True)
+    sortedRank = [sortedList.index(x, 1) for x in sortedList]
+    # rankBasesd = list(map(xPlus, sortedIndex))
+    scores = []
+    ranks = []
+    counter = 1
+    dicts = {}
+    for score in sortedList:
+        if len(scores) == 0:
+            scores.append(score)
+            ranks.append(counter)
+        elif score == scores[0]:
+            scores.append(score)
+            ranks.append(ranks[-1])
+        elif score != scores[0]:
+            scores.clear()
+            scores.append(score)
+            ranks.append(counter)
+
+        dicts[score] = counter
+        counter += 1
+
+    fetchedRank = []
+    for i in scoresList:
+        print(i, dicts[i])
+        if i == dicts[i]:
+            fetchedRank.append(dicts[i])
+
+    # print( "\n", fetchedRank)
+
+    arr = np.array([scoresList, fetchedRank], dtype="object")
+    print(arr)
+    exit()
+    return arr
+    # print(sortedList, "\n", "\n", ranks, "\n", dicts)
+    # return dicts
 
 
 @jwt_required()
 def insert():
 
     json = request.get_json()
-    users, weights = np.array(json[0]["users"]), np.array(json[0]["weights"])
+    # print(json[0]["math_scores"], 1111111111111111111111)
+    myDict = {}
+    # myDict["users"]
+    # {'users': ['asd', 'asdasd', 'werwer', 'ertert', 'dfgdfg', 'cvbcvb', 'dfgd', 'dfgdfg'], 'math_scores': [18, 19, 20, 20, 15, 17, 18, 0], 'adab_scores': [10, 17, 18, 20, 15, 14, 20, 0], 'weights': {'math': 4, 'adab': 3}}
+    ranks = []
+    df = pd.DataFrame(myDict)
+    df["users"] = json[0]["users"]
+    df["math_scores"] = json[0]["math_scores"]
+    fetchRankScores = calRank(json[0]["math_scores"])
 
-    print(users, "\n", "||||||||||||||||||||||||||||||||||||||||||||||",
-          "\n")
-
-    # array = np.array([4, 2, 7, 1])
-    # temp = array.argsort()
-    # ranks = np.empty_like(temp)
-    # ranks[temp] = np.arange(len(array))
-    # print(array, "\n", ranks)
-    math_marks = []
-    for courses in users:
-        scores = courses[4]
-        # print(scores[0])
-        math_marks.append(scores[0])
-    current_rank = 0
-    global_rank = 0
-    current_mark = 0
-    print(math_marks)
-    for mark in math_marks:
-        global_rank += 1
-        if mark != current_rank:
-            current_mark = mark
-            current_rank = global_rank
-        print(current_mark, current_rank)
-
-##[18, 17, 20, 20, 17, 17, 18, 0]
-# 18 1
-# 17 2
-# 20 3
-# 20 4
-# 17 5
-# 17 6
-# 18 7
-# 0 8
-#
-#
-#
-        return jsonify({"hell": "d"})
+    return jsonify({"hell": "d"})
 
 
 def pu():
