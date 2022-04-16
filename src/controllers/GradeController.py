@@ -9,7 +9,11 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 import numpy as np
 import pandas as pd
 from collections import defaultdict
+from src.models.GradeDocument import GradeDocument
 
+
+
+gDoc = GradeDocument()
 
 def calRank(scoresList):
 
@@ -44,7 +48,22 @@ def calRank(scoresList):
     return np.array([scoresList, fetchedRank], dtype="object")
 
 
-@jwt_required()
+def generateDoc(courses):
+    print(courses.keys())
+    exit()
+    detail ={
+        "username" : courses.users,
+        "courses":{
+            "math" : 13,
+
+        }
+
+    }
+
+    # gDoc.schema.inser
+
+
+# @jwt_required()
 def insert():
 
     json = request.get_json()
@@ -52,15 +71,29 @@ def insert():
     myDict = {}
     # myDict["users"]
     # {'users': ['asd', 'asdasd', 'werwer', 'ertert', 'dfgdfg', 'cvbcvb', 'dfgd', 'dfgdfg'], 'math_scores': [18, 19, 20, 20, 15, 17, 18, 0], 'adab_scores': [10, 17, 18, 20, 15, 14, 20, 0], 'weights': {'math': 4, 'adab': 3}}
-    ranks = []
+
     df = pd.DataFrame(myDict)
     df["users"] = json[0]["users"]
-    df["math_scores"] = json[0]["math_scores"]
-    df["math_scores"] = calRank(json[0]["math_scores"])[0]
-    df["ranks"] = calRank(json[0]["math_scores"])[1]
+    for courseName, scores in json[0]["scores"].items():
+        getRanks = calRank(scores)
+        val ={"rank":1, "w":json[0]["weights"][courseName]}
+
+        df[courseName] =   getRanks[0]
+        df[courseName + "_rank"] = getRanks[1]
+        df[courseName + "_weight"] = json[0]["weights"][courseName]
+
+        
+    # df["_meta"] = val
+
+    # df.apply(generateDoc, axis="columns")
+    # df.to_dict()
     print(df)
-    return jsonify({"hell": "d"})
+    # df = df.reset_index()  # make sure indexes pair with number of rows
+    # for  index, rows in df.iterrows():
+    #     # print(index, tuple(rows)[1])
+    #     generateDoc(rows)
 
+    exit()
+    # print(df)
+    # return jsonify({"hell": "d"})
 
-def pu():
-    pass
