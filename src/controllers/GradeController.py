@@ -13,9 +13,9 @@ from src.models.GradeDocument import GradeDocument
 
 
 
-gDoc = GradeDocument()
 
-def calRank(scoresList):
+
+def calRank(scoresList, courseName, courseWeight):
 
     sortedList = sorted(scoresList, reverse=True)
     # sortedRank = [sortedList.index(x, 1) for x in sortedList]
@@ -41,31 +41,19 @@ def calRank(scoresList):
 
 # TODO: should improve
     fetchedRank = []
-    for i in scoresList:
-        if i in dicts:
-            fetchedRank.append(dicts[i][0])
+    meta = []
+    for score in scoresList:
+        if score in dicts:
+            fetchedRank.append(dicts[score][0])
+            meta.append({"score" : score, "rank":dicts[score][0], "w":courseWeight})
 
-    return np.array([scoresList, fetchedRank], dtype="object")
+    return np.array([scoresList, fetchedRank, meta], dtype="object")
 
-
-def generateDoc(courses):
-    print(courses.keys())
-    exit()
-    detail ={
-        "username" : courses.users,
-        "courses":{
-            "math" : 13,
-
-        }
-
-    }
-
-    # gDoc.schema.inser
 
 
 # @jwt_required()
 def insert():
-
+    gDoc = GradeDocument()
     json = request.get_json()
     # print(json[0]["math_scores"], 1111111111111111111111)
     myDict = {}
@@ -73,27 +61,20 @@ def insert():
     # {'users': ['asd', 'asdasd', 'werwer', 'ertert', 'dfgdfg', 'cvbcvb', 'dfgd', 'dfgdfg'], 'math_scores': [18, 19, 20, 20, 15, 17, 18, 0], 'adab_scores': [10, 17, 18, 20, 15, 14, 20, 0], 'weights': {'math': 4, 'adab': 3}}
 
     df = pd.DataFrame(myDict)
-    df["users"] = json[0]["users"]
+    df["username"] = json[0]["users"]
     for courseName, scores in json[0]["scores"].items():
-        getRanks = calRank(scores)
-        val ={"rank":1, "w":json[0]["weights"][courseName]}
+        getRanks = calRank(scores, courseName,courseWeight = json[0]["weights"][courseName])
+        val = {"rank":1, "w":json[0]["weights"][courseName]}
 
         df[courseName] =   getRanks[0]
-        df[courseName + "_rank"] = getRanks[1]
-        df[courseName + "_weight"] = json[0]["weights"][courseName]
+        # df[courseName + "_rank"] = getRanks[1]
+        # df[courseName + "_weight"] = json[0]["weights"][courseName]
+        df[courseName] = getRanks[2]
+        gDoc.courseWeights = json[0]["weights"]
 
-        
-    # df["_meta"] = val
-
-    # df.apply(generateDoc, axis="columns")
-    # df.to_dict()
     print(df)
-    # df = df.reset_index()  # make sure indexes pair with number of rows
-    # for  index, rows in df.iterrows():
-    #     # print(index, tuple(rows)[1])
-    #     generateDoc(rows)
+    df = df.reset_index()  # make sure indexes pair with number of rows
+    for  index, rows in df.iterrows():
+        gDoc.generateDoc(rows.to_dict())
 
-    exit()
-    # print(df)
-    # return jsonify({"hell": "d"})
 
