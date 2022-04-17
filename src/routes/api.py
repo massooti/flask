@@ -12,4 +12,6 @@ mainRoutes.route('/sign-out', methods=['POST'])(UserController.signOut)
 mainRoutes.route('/me', methods=['GET'])(UserController.profile)
 
 
-mainRoutes.route('/grade/insert', methods=["POST"])(GradeController.insert)
+# mainRoutes.route('/grade/insert', methods=["POST"])(GradeController.insert)
+mainRoutes.route(
+    '/grade/insert', methods=["POST"])(GradeController.insertAgain)

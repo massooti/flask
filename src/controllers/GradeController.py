@@ -1,4 +1,5 @@
 
+from enum import IntEnum
 from pickle import TRUE
 from flask import jsonify, request, url_for
 from markupsafe import re
@@ -10,9 +11,6 @@ import numpy as np
 import pandas as pd
 from collections import defaultdict
 from src.models.GradeDocument import GradeDocument
-
-
-
 
 
 def calRank(scoresList, courseName, courseWeight):
@@ -45,10 +43,10 @@ def calRank(scoresList, courseName, courseWeight):
     for score in scoresList:
         if score in dicts:
             fetchedRank.append(dicts[score][0])
-            meta.append({"score" : score, "rank":dicts[score][0], "w":courseWeight})
+            meta.append(
+                {"score": score, "rank": dicts[score][0], "w": courseWeight})
 
     return np.array([scoresList, fetchedRank, meta], dtype="object")
-
 
 
 # @jwt_required()
@@ -63,10 +61,11 @@ def insert():
     df = pd.DataFrame(myDict)
     df["username"] = json[0]["users"]
     for courseName, scores in json[0]["scores"].items():
-        getRanks = calRank(scores, courseName,courseWeight = json[0]["weights"][courseName])
-        val = {"rank":1, "w":json[0]["weights"][courseName]}
+        getRanks = calRank(scores, courseName,
+                           courseWeight=json[0]["weights"][courseName])
+        val = {"rank": 1, "w": json[0]["weights"][courseName]}
 
-        df[courseName] =   getRanks[0]
+        df[courseName] = getRanks[0]
         # df[courseName + "_rank"] = getRanks[1]
         # df[courseName + "_weight"] = json[0]["weights"][courseName]
         df[courseName] = getRanks[2]
@@ -74,7 +73,31 @@ def insert():
 
     print(df)
     df = df.reset_index()  # make sure indexes pair with number of rows
-    for  index, rows in df.iterrows():
+    for index, rows in df.iterrows():
         gDoc.generateDoc(rows.to_dict())
 
 
+def insertAgain():
+    gDoc = GradeDocument()
+    json = request.get_json()
+    print("\n", json[0][-1], "\n")
+    myDict = {}
+
+    df = pd.DataFrame(myDict)
+    localScores = []
+    localUnits = []
+    # df["courses"] = np.array(json[0][-1])
+    # print(df)
+    riazyScores = []
+    for i, key in enumerate(json[0]):
+
+        exctractScores = np.array(key["users"], dtype="object")
+        for j in exctractScores:
+
+            print(j[3][0])
+        # array = np.array(exctractScores[:, 3])
+        # riazyScores.append(array[0][0])
+        # exit()
+
+    print(riazyScores)
+    exit()
