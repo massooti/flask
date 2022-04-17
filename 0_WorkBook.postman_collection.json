@@ -241,6 +241,120 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "grade-insertAgain",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"A\":{\n        \"users\": [\"asd\", \"asdasd\"],\n        \"scores\":{\n        \"math\":[18, 20],\n        \"adab\":[10, 18]\n    },\n    \"B\":{\n        \"users\": [\"werwer\", \"ertert\"],\n        \"scores\":{\n        \"math\":[19, 20],\n        \"adab\":[17, 20]\n    },\n     \"C\":{\n        \"users\": [\"dfgdfg\", \"cvbcvb\"],\n        \"scores\":{\n        \"math\":[15, 18],\n        \"adab\":[15, 20]\n    },\n     \"D\":{\n        \"users\": [\"dfgd\", \"dfgdfg\"],\n        \"scores\":{\n        \"math\":[17, 0],\n        \"adab\":[17, 0]\n    },\n       \"h\" :[[\"dfgd\", \"dfgdfg\"], [\"math\", 17, 0], [\"adab\",17,0]]\n    },\n\n   \n\n    \n    \"weights\":{\n        \"math\" : 4,\n        \"adab\" : 3\n    }\n  }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/grade/insert",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"grade",
+						"insert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "grade-insertAgain2",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[[\n            {\n            \"class_id\":\"123123123123\",\n            \"users\": [\n                       {\n                        \"n_id\" : \"123123\",\n                        \"name\": \"asdasd\",\n                        \"units\":[\n                         {\"unit_id\":1,\"unit_name\":\"math\", \"score\":18},\n                         {\"unit_id\":2,\"unit_name\":\"adab\", \"score\":12}\n                         ]},\n                          {\n                        \"n_id\" : \"22222\",\n                        \"name\": \"22222\",\n                        \"units\":[\n                         {\"unit_id\":1,\"unit_name\":\"math\", \"score\":18},\n                         {\"unit_id\":2,\"unit_name\":\"adab\", \"score\":12}\n                         ]}\n\n            ]\n    },\n    {\n            \"class_id\":\"123123123123\",\n            \"users\": [\n                       {\n                        \"n_id\" : \"123123\",\n                        \"name\": \"asdasd\",\n                        \"units\":[\n                         {\"unit_id\":1,\"unit_name\":\"math\", \"score\":18},\n                         {\"unit_id\":2,\"unit_name\":\"adab\", \"score\":12}\n                         ]},\n                          {\n                        \"n_id\" : \"22222\",\n                        \"name\": \"22222\",\n                        \"units\":[\n                         {\"unit_id\":1,\"unit_name\":\"math\", \"score\":18},\n                         {\"unit_id\":2,\"unit_name\":\"adab\", \"score\":12}\n                         ]}\n\n            ]\n    },\n   [\"math\", \"adab\"]\n  \n  \n]]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/grade/insert",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"grade",
+						"insert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "grade-insertAgain3Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    [\n            {\n            \"class_id\":\"wersdf145\",\n            \"users\": [\n                      [\"name\", \"n_id\", true, [15,20, 23]],\n                      [\"name\", \"n_id\", true, [17,20, 23]],\n                      [\"name\", \"n_id\", true, [16,20, 23]]\n            ]\n    },\n    {\n            \"class_id\":\"fdvg123\",\n            \"users\": [\n                         [\"name\", \"n_id\", true, [36,20, 23]],\n                         [\"name\", \"n_id\", true, [37,20, 23]],\n                         [\"name\", \"n_id\", true, [39,20, 23]]\n            ]\n    }\n  \n  \n],\n{\n    \"courses\":[\"math\", \"adab\"]\n}\n\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/grade/insert",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"grade",
+						"insert"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
