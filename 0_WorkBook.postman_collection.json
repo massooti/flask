@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b528f5b7-f67e-4514-9768-c8467d6313aa",
+		"_postman_id": "4c9e0f62-b2da-4460-9785-f4089f2bd557",
 		"name": "0_WorkBook",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -335,7 +335,45 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n    [\n            {\n            \"class_id\":\"wersdf145\",\n            \"users\": [\n                      [\"name\", \"n_id\", true, [15,20, 23]],\n                      [\"name\", \"n_id\", true, [17,20, 23]],\n                      [\"name\", \"n_id\", true, [16,20, 23]]\n            ]\n    },\n    {\n            \"class_id\":\"fdvg123\",\n            \"users\": [\n                         [\"name\", \"n_id\", true, [36,20, 23]],\n                         [\"name\", \"n_id\", true, [37,20, 23]],\n                         [\"name\", \"n_id\", true, [39,20, 23]]\n            ]\n    }\n  \n  \n],\n{\n    \"courses\":[\"math\", \"adab\"]\n}\n\n]",
+					"raw": "[\n    [\n            {\n            \"class_id\":\"wersdf145\",\n            \"users\": [\n                      [\"name\", \"n_id\", true, [15,12, 23]],\n                      [\"name\", \"n_id\", true, [17,13, 23]],\n                      [\"name\", \"n_id\", true, [16,14, 23]]\n            ]\n    },\n    {\n            \"class_id\":\"fdvg123\",\n            \"users\": [\n                         [\"name\", \"n_id\", true, [36,16, 23]],\n                         [\"name\", \"n_id\", true, [37,18, 23]],\n                         [\"name\", \"n_id\", true, [39,10, 23]]\n            ]\n    }\n  \n  \n],\n{\n    \"courses\":[\"math\", \"adab\", \"physic\"]\n}\n\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/grade/insert",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"grade",
+						"insert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "grade-insertAgain4",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    [\n            {\n            \"class_id\":\"classA\",\n            \"users\":[\"a1\", \"a2\"],\n            \"scores\":{\n                     \"math\":[12, 13],\n                     \"adab\":[14, 15]\n            }\n          \n    },\n    {\n            \"class_id\":\"classB\",\n            \"users\":[\"b1\", \"b2\"],\n            \"scores\":{\n                     \"math\":[12, 984],\n                     \"adab\":[20, 36]\n            }\n    },  {\n            \"class_id\":\"classC\",\n            \"users\":[\"c1\", \"c2\"],\n            \"scores\":{\n                     \"math\":[30, 301],\n                     \"adab\":[30, 302]\n            }\n    }\n],\n{\n    \"courses\":[\"math\", \"adab\"]\n}\n\n]",
 					"options": {
 						"raw": {
 							"language": "json"

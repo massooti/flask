@@ -49,6 +49,44 @@ def calRank(scoresList, courseName, courseWeight):
     return np.array([scoresList, fetchedRank, meta], dtype="object")
 
 
+def calRank2(scoresList):
+    
+    sortedList = sorted(scoresList, reverse=True)
+    # sortedRank = [sortedList.index(x, 1) for x in sortedList]
+    # rankBasesd = list(map(xPlus, sortedIndex))
+    scores = []
+    globalRanks = []
+    counter = 1
+    dicts = defaultdict(list)
+    for score in sortedList:
+        if len(scores) == 0:
+            scores.append(score)
+            globalRanks.append(counter)
+        elif score == scores[0]:
+            scores.append(score)
+            globalRanks.append(globalRanks[-1])
+        elif score != scores[0]:
+            scores.clear()
+            scores.append(score)
+            globalRanks.append(counter)
+
+        dicts[score] .append(counter)
+        counter += 1
+
+# TODO: should improve
+    fetchedRank = []
+    meta = []
+    for score in scoresList:
+        if score in dicts:
+            fetchedRank.append(dicts[score][0])
+            meta.append(
+                {"score": score, "rank": dicts[score][0]})
+
+    return fetchedRank
+
+
+
+
 # @jwt_required()
 def insert():
     gDoc = GradeDocument()
@@ -81,36 +119,60 @@ def insertAgain():
     gDoc = GradeDocument()
     json = request.get_json()
     # print("\n", json[-1], "\n") {'courses': ['math', 'adab', 'pysics]}
-    myDict = {}
+    myDictLocal = {}
+    myDictLocal2 = {}
+    myDictGlobal = {}
     insertedCourses  = json[-1]["courses"]
 
     localScope = []
-    localScores = []
+    localScores = {}
     globalScores = []
     globalScope = []
     emptyList=[]
     exctractScoresTotal = []
     riazyScores = []
-    df = pd.DataFrame(myDict)
+    dfGlobal = pd.DataFrame(myDictGlobal)
+    dfLocal = pd.DataFrame(myDictLocal)
+    d = {} #  Initialize the new dictionary as an empty dictionary
+        # print(insertedCourse)
+    data = []
+    k = 1
+    kc = None
+    for i, classObj in enumerate(json[0]):
 
-    for i, key in enumerate(json[0]):
-        exctractScoresViaClass = np.array(key["users"], dtype="object")
-        # allArrays = np.append(allArrays, exctractScores[:, 3], axis = 0)
-       
-        # for j, val in enumerate(exctractScoresViaClass):
-        #     print("i is {} and j is {}".format(i, j))
-        #     if i ==j:
-        #         localScope.append(val[3][0])
-        #     elif 
-        #     # print(globalScope)
-        #     # exit()
-        #     # globalScores
-    
+            for j, insertedCourse in enumerate(classObj["scores"]):
+                # print(i, j ,classObj["class_id"] , insertedCourse, "\n")
+            # if classObj["scores"].keys() 
+            # print(insertedCourse,   classObj["scores"].get(insertedCourse), classObj["users"])
+                dfLocal["class"] = classObj["class_id"]
+                dfLocal["username"] = classObj["users"]
+                dfLocal[insertedCourse] = classObj["scores"].get(insertedCourse)
+                dfLocal[insertedCourse + "_rankL"] = calRank2(classObj["scores"].get(insertedCourse))
+            # dfLocal[insertedCourse + "_rankL"] = calRank2(classObj["scores"].get(insertedCourse))
+            # d[classObj["class_id"]] = dfLocal
+            # print(i , insertedCourse)print('{}\n'.format(df))
+            
+            d[str(k)] = dfLocal
 
+                # print('i{}, k {}, \n'.format(i, k))
+            kc = pd.concat([dfLocal, d.get(str(k-1))])
+            print('i{}, prevI {} k {}, \n'.format(i, k, k-1))
+            k +=1  
+            # print('i{}, k {}, {}, \n'.format(i, k, dfLocal))
 
-
-    print(exctractScoresViaClass)
+    # exit()
+    # k =i
+    print(kc)
     exit()
+            
+    print(d)
+    # exit()
+    # print(dfLocal)
+
+
+
+    exit()
+    print(exctractScoresViaClass)
 
 
    
