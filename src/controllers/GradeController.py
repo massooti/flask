@@ -80,24 +80,42 @@ def insert():
 def insertAgain():
     gDoc = GradeDocument()
     json = request.get_json()
-    print("\n", json[0][-1], "\n")
+    # print("\n", json[-1], "\n") {'courses': ['math', 'adab', 'pysics]}
     myDict = {}
+    insertedCourses  = json[-1]["courses"]
 
-    df = pd.DataFrame(myDict)
+    localScope = []
     localScores = []
-    localUnits = []
-    # df["courses"] = np.array(json[0][-1])
-    # print(df)
+    globalScores = []
+    globalScope = []
+    emptyList=[]
+    exctractScoresTotal = []
     riazyScores = []
+    df = pd.DataFrame(myDict)
+
     for i, key in enumerate(json[0]):
+        exctractScoresViaClass = np.array(key["users"], dtype="object")
+        # allArrays = np.append(allArrays, exctractScores[:, 3], axis = 0)
+       
+        # for j, val in enumerate(exctractScoresViaClass):
+        #     print("i is {} and j is {}".format(i, j))
+        #     if i ==j:
+        #         localScope.append(val[3][0])
+        #     elif 
+        #     # print(globalScope)
+        #     # exit()
+        #     # globalScores
+    
 
-        exctractScores = np.array(key["users"], dtype="object")
-        for j in exctractScores:
 
-            print(j[3][0])
-        # array = np.array(exctractScores[:, 3])
-        # riazyScores.append(array[0][0])
-        # exit()
 
-    print(riazyScores)
+    print(exctractScoresViaClass)
     exit()
+
+
+   
+
+    return jsonify({"hekpp":"hi"})
+
+
+   

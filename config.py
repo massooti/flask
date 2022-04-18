@@ -7,7 +7,7 @@ import os
 
 class Config():
 
-    DEBUG = False
+    DEBUG = True
     load_dotenv()
 
     connection_params = {
