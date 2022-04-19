@@ -80,46 +80,23 @@ def insertAzmoon():
     insertedCourses = json[-1]["courses"]
     initialDf = pd.DataFrame(initialDictionary)  # initializing dataframe
     data = []
+    users = []
+    GlobalUnitsScope = []
+    LocalUnitsScope = []
     for i, classObj in enumerate(json[0]):
+        users.extend(classObj["users"])
         for j, insertedCourse in enumerate(classObj["scores"]):
+            LocalUnitsScope.append(classObj["scores"].get(insertedCourse))
+            try:
+                GlobalUnitsScope[j].extend(
+                    classObj["scores"].get(insertedCourse))
+            except:
+                GlobalUnitsScope.append(classObj["scores"].get(insertedCourse))
 
-            initialDf["class"] = classObj["class_id"]
-            initialDf["username"] = classObj["users"]
-            initialDf[insertedCourse] = classObj["scores"].get(insertedCourse)
-            initialDf[insertedCourse +
-                      "-l-Rank"] = getRank(classObj["scores"].get(insertedCourse))
-            dfcloned = initialDf.copy()
-        data.append(dfcloned)
-
-    # generate final dataframe
-    totalAzmoonScore = pd.concat([df.set_index("class")
-                                  for df in data])
-    # print(totalAzmoonScore.head())
-    # exit()
-    newCli = len(insertedCourses)  # set target  step for new indexes
-    try:
-        for i, insertedCourse in enumerate(insertedCourses):
-            # print(newCli+1)
-            totalAzmoonScore.insert(newCli+1, insertedCourse + "-g-Rank", getRank(
-                totalAzmoonScore[insertedCourse].values.tolist()))
-            newCli += newCli
-    except:
-        print(totalAzmoonScore.iloc[:, 1])
-    print(totalAzmoonScore)
-
-
-# """
-#        username  math  math-l-Rank  math-g-Rank  adab  adab-g-Rank  adab-l-Rank
-# class
-# classA       a1    18            2            4    10            7            2
-# classA       a2    19            1            3    17            3            1
-# classB       b1    20            1            1    18            2            2
-# classB       b2    20            1            1    20            1            1
-# classC       c1    15            2            7    15            4            1
-# classC       c2    17            1            6    14            6            2
-# classD       d1    18            1            4    15            4            1
-# classD       d2     0            2            8     0            8            2
-#
-#  """
-
+    gU = np.asarray(GlobalUnitsScope)
+    uU = np.asarray(users)
+    lU = np.asarray(LocalUnitsScope)
+    mat_f = np.column_stack((gU, lU))
+    print(mat_f.tolist())
+    # print(users)
     return jsonify({"hekpp": "hi"})
