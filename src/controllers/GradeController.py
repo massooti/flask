@@ -50,7 +50,7 @@ def calRank(scoresList, courseName, courseWeight):
 
 
 def calRank2(scoresList):
-    
+
     sortedList = sorted(scoresList, reverse=True)
     # sortedRank = [sortedList.index(x, 1) for x in sortedList]
     # rankBasesd = list(map(xPlus, sortedIndex))
@@ -83,8 +83,6 @@ def calRank2(scoresList):
                 {"score": score, "rank": dicts[score][0]})
 
     return fetchedRank
-
-
 
 
 # @jwt_required()
@@ -122,62 +120,24 @@ def insertAgain():
     myDictLocal = {}
     myDictLocal2 = {}
     myDictGlobal = {}
-    insertedCourses  = json[-1]["courses"]
-
-    localScope = []
-    localScores = {}
-    globalScores = []
-    globalScope = []
-    emptyList=[]
-    exctractScoresTotal = []
-    riazyScores = []
+    insertedCourses = json[-1]["courses"]
     dfGlobal = pd.DataFrame(myDictGlobal)
     dfLocal = pd.DataFrame(myDictLocal)
-    d = {} #  Initialize the new dictionary as an empty dictionary
-        # print(insertedCourse)
     data = []
-    k = 1
-    kc = None
     for i, classObj in enumerate(json[0]):
+        for j, insertedCourse in enumerate(classObj["scores"]):
+            dfLocal["class"] = classObj["class_id"]
+            dfLocal["username"] = classObj["users"]
+            dfLocal[insertedCourse] = classObj["scores"].get(insertedCourse)
+            dfLocal[insertedCourse +
+                    "_rankL"] = calRank2(classObj["scores"].get(insertedCourse))
+            a = dfLocal.copy()
+        data.append(a)
 
-            for j, insertedCourse in enumerate(classObj["scores"]):
-                # print(i, j ,classObj["class_id"] , insertedCourse, "\n")
-            # if classObj["scores"].keys() 
-            # print(insertedCourse,   classObj["scores"].get(insertedCourse), classObj["users"])
-                dfLocal["class"] = classObj["class_id"]
-                dfLocal["username"] = classObj["users"]
-                dfLocal[insertedCourse] = classObj["scores"].get(insertedCourse)
-                dfLocal[insertedCourse + "_rankL"] = calRank2(classObj["scores"].get(insertedCourse))
-            # dfLocal[insertedCourse + "_rankL"] = calRank2(classObj["scores"].get(insertedCourse))
-            # d[classObj["class_id"]] = dfLocal
-            # print(i , insertedCourse)print('{}\n'.format(df))
-            
-            d[str(k)] = dfLocal
+    totalAzmoonScore = pd.concat([df.set_index("class")
+                                  for df in data])
 
-                # print('i{}, k {}, \n'.format(i, k))
-            kc = pd.concat([dfLocal, d.get(str(k-1))])
-            print('i{}, prevI {} k {}, \n'.format(i, k, k-1))
-            k +=1  
-            # print('i{}, k {}, {}, \n'.format(i, k, dfLocal))
-
-    # exit()
-    # k =i
-    print(kc)
+    print(totalAzmoonScore)
     exit()
-            
-    print(d)
-    # exit()
-    # print(dfLocal)
 
-
-
-    exit()
-    print(exctractScoresViaClass)
-
-
-   
-
-    return jsonify({"hekpp":"hi"})
-
-
-   
+    return jsonify({"hekpp": "hi"})
