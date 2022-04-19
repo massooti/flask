@@ -1,6 +1,6 @@
 from crypt import methods
 from flask import Blueprint, jsonify, request, url_for
-from src.controllers import UserController, GradeController
+from src.controllers import UserController, AzmoonGradeController
 
 mainRoutes = Blueprint('routes', __name__, url_prefix='/v1')
 
@@ -14,4 +14,4 @@ mainRoutes.route('/me', methods=['GET'])(UserController.profile)
 
 # mainRoutes.route('/grade/insert', methods=["POST"])(GradeController.insert)
 mainRoutes.route(
-    '/grade/insert', methods=["POST"])(GradeController.insertAgain)
+    '/grade/insert', methods=["POST"])(AzmoonGradeController.insertAzmoon)

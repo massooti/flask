@@ -8,7 +8,7 @@ from posix import environ
 
 
 
-class GradeDocument():
+class AzmoonGradeDocument():
     courseWeights = None
     def __init__(self):
         self.database = Database().db
