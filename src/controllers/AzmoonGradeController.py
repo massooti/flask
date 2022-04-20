@@ -83,20 +83,38 @@ def insertAzmoon():
     users = []
     GlobalUnitsScope = []
     LocalUnitsScope = []
+    localClassNames = []
+    azmoondict = {}
     for i, classObj in enumerate(json[0]):
         users.extend(classObj["users"])
+        localClassNames.append(classObj["class_id"])
         for j, insertedCourse in enumerate(classObj["scores"]):
             LocalUnitsScope.append(classObj["scores"].get(insertedCourse))
             try:
                 GlobalUnitsScope[j].extend(
                     classObj["scores"].get(insertedCourse))
-            except:
-                GlobalUnitsScope.append(classObj["scores"].get(insertedCourse))
 
-    gU = np.asarray(GlobalUnitsScope)
-    uU = np.asarray(users)
-    lU = np.asarray(LocalUnitsScope)
-    mat_f = np.column_stack((gU, lU))
-    print(mat_f.tolist())
+            except:
+                GlobalUnitsScope.append(
+                    classObj["scores"].get(insertedCourse))
+                LocalUnitsScope.clear()
+
+    # print(localClassNames)
     # print(users)
+    # print(LocalUnitsScope)
+    # print(GlobalUnitsScope)
+
+    ttt = np.array([localClassNames, users, LocalUnitsScope])
+
+    print(ttt)
+    exit()
+    # # df = pd.DataFrame(azmoondict)
+    # df = pd.DataFrame({"Columns1"})
+
+    # df["classNames"] = ttt[0]
+    # df["usernames"] = ttt[1]
+    # df["unitNames"] = json[0]["courses"]
+
+    # for x in LocalUnitsScope:
+    #     print(x)
     return jsonify({"hekpp": "hi"})
