@@ -3,7 +3,7 @@ from asyncio import selector_events
 from dataclasses import dataclass
 from pickle import FALSE
 from src.database.Database import Database
-from posix import environ
+from collections import defaultdict
 # import pyjwt
 import numpy as np
 import pandas as pd
@@ -43,87 +43,83 @@ class AzmoonGradeDocument():
 
     def Calculate(self, json):
 
-        # print("\n", json[-1], "\n") {'courses': ['math', 'adab', 'pysics]}
         initialDictionary = {}
-        insertedCourses = json[-1]["courses"]
+        insertedCourses = json[-1]["courses"]   # print("\n", json[-1], "\n") {'courses': ['math', 'adab', 'pysics]}
 
         initialDf = pd.DataFrame(initialDictionary)  # initializing dataframe
-        data = []
-        users = []
         GlobalUnitsScope = []
         LocalUnitsScope = []
         localClassNames = []
         self.coursesScores = []
-        # self.domesticScore = []
         scoreByCourse = {}
         pp = []
         data = {}
+        users = []
+        colmns = ['', 'username', insertedCourses]
         for i, classObj in enumerate(json[0]):
-            # users.append(classObj["users"])
-            # data.append(self.coursesScores)
             for user in enumerate(classObj["users"]):
                 scoresInArray = user[1][3]
-                # pp.clear()
-                i = pp.append(user[1][3])
-                data[classObj["class_id"]] = 3213213
-                # print(scoresInArray)
-                # print(user[1][3][0][])
-                # print(user, i, j, k, m, o)
-                # exit()
                 self.coursesScores.append(scoresInArray)
-                for j, insertedCourse in enumerate(insertedCourses):
-                    pass  # print(scoresInArray[0])
-                    # pp.append(scoresInArray[j])
-                    # print(pp)
-                # exit()
+                try:
+                    users[i].append(user[1][0])
+                    pp[i].append(scoresInArray)
+                except:
+                    pp.append([scoresInArray])
+                    users.append([user[1][0]])
 
-        print(data)
+        pureScores = np.array(self.coursesScores ,ndmin=2)      
+
+        globalPureScores = np.array(self.coursesScores).transpose()
+        # print(globalPureScores)
+        # exit()
+        yu = [] # [[(15, 17, 16), (12, 13, 14), (23, 23, 23)], [(36, 37), (16, 18), (23, 23)]]
+        for n,localScores in enumerate(pp):
+            yu.append(list(zip(*localScores)))
+
+        print(users, "\n",yu)
+        exit()
+        for localClassIndex, localClassScorseByCourse in enumerate(yu):
+            for localClassUsersInsex,username in enumerate(users):
+                for insertedCourseIndex, insertedCourse in enumerate(insertedCourses):
+                    # print(localClassIndex, localClassScorseByCourse, localClassUsersInsex,username, localClassUsersInsex, insertedCourse)
+                    # pass
+                    self.userGen(username, localRankInCoures=localClassScorseByCourse[insertedCourseIndex], inCourse = insertedCourse)
+
+        # for user in users:
+        #     self.userGen(user)
+
+
+    def userGen(self, username,localRankInCoures, inCourse, **kwargs):
+        print(username, localRankInCoures, inCourse)
         # exit()
 
-        exit()
-        pureScores = np.array(self.coursesScores)
-        print(pureScores[..., 0])
+    def getRank(scoresList):
+        sortedList = sorted(scoresList, reverse=True)
 
-        for pureScore in np.ndenumerate(pureScores):
-            print(pureScore)
+        scores = []
+        globalRanks = []
+        counter = 1
+        dicts = defaultdict(list)
+        for score in sortedList:
+            if len(scores) == 0:
+                scores.append(score)
+                globalRanks.append(counter)
+            elif score == scores[0]:
+                scores.append(score)
+                globalRanks.append(globalRanks[-1])
+            elif score != scores[0]:
+                scores.clear()
+                scores.append(score)
+                globalRanks.append(counter)
 
-        # globalPureScores = np.array(self.coursesScores).transpose()
-
-
-# """
-#
-# [
-#     [
-#             {
-#             "class_id": "wersdf145",
-#             "users": [
-#                       ["name", "n_id", true, [15, 12, 23]],
-#                       ["name", "n_id", true, [17, 13, 23]],
-#                       ["name", "n_id", true, [16, 14, 23]]
-#             ]
-#     },
-#     {
-#             "class_id": "fdvg123",
-#             "users": [
-#                          ["name", "n_id", true, [36, 16, 23]],
-#                          ["name", "n_id", true, [37, 18, 23]]
-#             ]
-#     }
+            dicts[score] .append(counter)
+            counter += 1
+        # TODO: should improve
+        fetchedLocalRank = []
+        for score in scoresList:
+            if score in dicts:
+                fetchedLocalRank.append(dicts[score][0])
+        return fetchedLocalRank
 
 
-# ],
 
-
-# {
-#     "courses": ["math", "adab", "physic"]
-# }
-
-# ]
-#
-#
-#
-#
-#
-#
-#
-#   """
