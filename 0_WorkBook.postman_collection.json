@@ -319,7 +319,7 @@
 			"response": []
 		},
 		{
-			"name": "grade-insertAgain3Copy",
+			"name": "get-azmoon",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -335,7 +335,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n    [\n            {\n            \"class_id\":\"wersdf145\",\n            \"users\": [\n                      [\"name\", \"n_id\", true, [15,12, 23]],\n                      [\"name\", \"n_id\", true, [17,13, 23]],\n                      [\"name\", \"n_id\", true, [16,14, 23]]\n            ]\n    },\n    {\n            \"class_id\":\"fdvg123\",\n            \"users\": [\n                         [\"name\", \"n_id\", true, [36,16, 23]],\n                         [\"name\", \"n_id\", true, [37,18, 23]],\n                         [\"name\", \"n_id\", true, [39,10, 23]]\n            ]\n    }\n  \n  \n],\n{\n    \"courses\":[\"math\", \"adab\", \"physic\"]\n}\n\n]",
+					"raw": "[\n    [\n            {\n            \"class_id\":\"A\",\n            \"users\": [\n                      [\"a1\", \"n_id\", true, [18,10]],\n                      [\"a2\", \"n_id\", true, [19,17]]\n            ]\n    },\n    {\n            \"class_id\":\"B\",\n            \"users\": [\n                         [\"b2\", \"n_id\", true, [20,18]],\n                         [\"b3\", \"n_id\", true, [20,20]]\n            ]\n    },{\n            \"class_id\":\"C\",\n            \"users\": [\n                         [\"b2\", \"n_id\", true, [15,15]],\n                         [\"b3\", \"n_id\", true, [17,14]]\n            ]\n    },{\n            \"class_id\":\"D\",\n            \"users\": [\n                         [\"b2\", \"n_id\", true, [18,20]],\n                         [\"b3\", \"n_id\", false, [0,0]]\n            ]\n    }\n  \n  \n],\n{\n    \"courses\":[\"math\", \"adab\"]\n}\n\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -373,7 +373,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n    [\n            {\n            \"class_id\":\"classA\",\n            \"users\":[\"a1\", \"a2\"],\n            \"scores\":{\n                     \"math\":[12, 13],\n                     \"adab\":[14, 15]\n            }\n          \n    },\n    {\n            \"class_id\":\"classB\",\n            \"users\":[\"b1\", \"b2\"],\n            \"scores\":{\n                     \"math\":[12, 984],\n                     \"adab\":[20, 36]\n            }\n    },  {\n            \"class_id\":\"classC\",\n            \"users\":[\"c1\", \"c2\"],\n            \"scores\":{\n                     \"math\":[30, 301],\n                     \"adab\":[30, 302]\n            }\n    }\n],\n{\n    \"courses\":[\"math\", \"adab\"]\n}\n\n]",
+					"raw": "[\n    [\n            {\n            \"class_id\":\"A\",\n            \"users\": [\n                      [\"a1\", \"n_id\", true, [18,10]],\n                      [\"a2\", \"n_id\", true, [19,17]]\n            ]\n    },\n    {\n            \"class_id\":\"B\",\n            \"users\": [\n                         [\"b2\", \"n_id\", true, [20,18]],\n                         [\"b3\", \"n_id\", true, [20,20]]\n            ]\n    },{\n            \"class_id\":\"C\",\n            \"users\": [\n                         [\"b2\", \"n_id\", true, [15,15]],\n                         [\"b3\", \"n_id\", true, [17,14]]\n            ]\n    },{\n            \"class_id\":\"D\",\n            \"users\": [\n                         [\"b2\", \"n_id\", true, [18,20]],\n                         [\"b3\", \"n_id\", false, [0,0]]\n            ]\n    }\n  \n  \n],\n{\n    \"courses\":[\"math\", \"adab\"]\n}\n\n]",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -389,6 +389,47 @@
 						"v1",
 						"grade",
 						"insert"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-azmoon",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/v1/azmoon/6263d763d39fa224e602c78e",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"v1",
+						"azmoon",
+						"6263d763d39fa224e602c78e"
 					]
 				}
 			},
