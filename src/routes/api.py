@@ -15,3 +15,6 @@ mainRoutes.route('/me', methods=['GET'])(UserController.profile)
 # mainRoutes.route('/grade/insert', methods=["POST"])(GradeController.insert)
 mainRoutes.route(
     '/grade/insert', methods=["POST"])(AzmoonGradeController.insertAzmoon)
+
+
+mainRoutes.route('/azmoon/<azmoonId>', methods=['GET'])(AzmoonGradeController.getAzmoon)
